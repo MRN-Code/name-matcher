@@ -4,7 +4,9 @@ A simple webservice that wraps the Natural library
 
 ## Installation
 
-npm install package.json
+npm install
+
+Place a valid certificate and key in the cert/ directory
 
 ## Usage
 
