@@ -1,0 +1,26 @@
+{
+  "name": "name-matcher",
+  "version": "0.0.1",
+  "description": "A simple name matching webservice",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "^0.12.1",
+    "natural": "^0.1.28",
+    "rsvp": "^3.0.14",
+    "underscore": "^1.7.0",
+    "hapi": "^8.0.0-rc1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-bump": "0.0.13",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-jscs": "~0.6.1",
+    "grunt-mocha-cli": "~1.0.1"
+  }
+}
