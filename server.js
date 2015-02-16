@@ -1,17 +1,28 @@
 'use strict';
+var config = require('config').get('server');
+if (config.environment === "production") {
+    process.env.NODE_ENV = 'production';
+} else {
+    process.env.NODE_ENV = 'development';
+}
 var nameMatcher = require("./lib/nameMatcher.js");
 var hapi = require('hapi');
 var fs = require('fs');
 nameMatcher.whenReady.then(function(value) {
+//nameMatcher.printNames();
+    var options = {};
+    if (config.ssl.enabled) {
+        options.tls = require('./lib/sslCredentials.js');
+    }
+    if (process.env.NODE_ENV === "production") {
+        options.port = 3000;
+    } else {
+        options.port = 2999;
+    }
     var server = new hapi.Server();
-    server.connection({
-        tls: {
-            key: fs.readFileSync('./cert/self.key'),
-            cert: fs.readFileSync('./cert/self.crt')
-        },
-        port: 3000
-    });
-    // production match
+    server.connection(options);
+
+    // match names
     server.route({
         method: 'GET',
         path: '/{names}',
@@ -29,7 +40,7 @@ nameMatcher.whenReady.then(function(value) {
             reply(nameMatcher.matchNames(nameObjects, "prod"));
         }
     });
-    // production add 
+    // add names
     server.route({
         method: 'POST',
         path: '/',
@@ -45,7 +56,7 @@ nameMatcher.whenReady.then(function(value) {
                     if (firstList[i] !== '' || lastList[i] !== '') {
                     nameMatcher.addName(firstList[i], lastList[i], "prod");
                     } else {
-                        reply('failure: no names');
+                        reply('failure: empty names in list');
                     }
                 }
                 reply('success');
@@ -54,37 +65,6 @@ nameMatcher.whenReady.then(function(value) {
             }
         }
     });
-
-    // dev match
-    server.route({
-        method: 'GET',
-        path: '/dev/{names}',
-        handler: function (request, reply) {
-            var nameList = request.params.names.split(":");
-            var nameObjects  = nameList.map(function createNameObjects(current) {
-                var nameObj = {};
-                current = current.split(",");
-                nameObj.first = current[0];
-                nameObj.last = current[1];
-                
-                return nameObj;
-            });
-          
-            reply(nameMatcher.matchNames(nameObjects, "prod"));
-        }
-    });
-    // dev add 
-    server.route({
-        method: 'POST',
-        path: '/dev',
-        handler: function (request, reply) {
-            console.log("POST: ");
-            console.log(request.payload);
-            nameMatcher.addName(request.payload.first, request.payload.last, "prod");
-            reply('success');
-        }
-    });
-    
     server.start(function () {
         console.log('Server running at:', server.info.uri);
     });

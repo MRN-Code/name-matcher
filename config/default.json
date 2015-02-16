@@ -1,0 +1,12 @@
+{
+    "server": {
+        "ssl": {
+            "enabled": true,
+            "key": "server.key",
+            "crt": "server.crt",
+            "bundle": "server.ca-bundle"
+        },
+        "environment": "productio"
+    }
+}
+
