@@ -8,8 +8,8 @@ if (config.environment === "production") {
 var nameMatcher = require("./lib/nameMatcher.js");
 var hapi = require('hapi');
 var fs = require('fs');
+var boom = require('boom');
 nameMatcher.whenReady.then(function(value) {
-//nameMatcher.printNames();
     var options = {};
     if (config.ssl.enabled) {
         options.tls = require('./lib/sslCredentials.js');
@@ -50,18 +50,18 @@ nameMatcher.whenReady.then(function(value) {
 	        var firstList = request.payload.first.split(',');
                 var lastList = request.payload.last.split(',');
                 if (firstList.length !== lastList.length) {
-                    reply('failure: unpaired first/last');
+                    reply(boom.badRequest('failure: unpaired first/last'));
                 }
                 for (var i=0; i < firstList.length; i++) {
                     if (firstList[i] !== '' || lastList[i] !== '') {
                     nameMatcher.addName(firstList[i], lastList[i], "prod");
                     } else {
-                        reply('failure: empty names in list');
+                        reply(boom.badRequest('failure: empty names in list'));
                     }
                 }
                 reply('success');
             } else {
-                reply('failure: no names');
+                reply(boom.badRequest('failure: no names'));
             }
         }
     });
