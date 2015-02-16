@@ -6,7 +6,7 @@
             "crt": "server.crt",
             "bundle": "server.ca-bundle"
         },
-        "environment": "productio"
+        "environment": "production"
     }
 }
 
