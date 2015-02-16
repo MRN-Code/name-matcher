@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "redis": "^0.12.1",
+    "boom": "^2.6.1",
     "config": "^1.11.0",
     "natural": "^0.1.28",
     "rsvp": "^3.0.14",
