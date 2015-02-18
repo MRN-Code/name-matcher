@@ -37,7 +37,7 @@ nameMatcher.whenReady.then(function(value) {
                 return nameObj;
             });
           
-            reply(nameMatcher.matchNames(nameObjects, "prod"));
+            reply(nameMatcher.matchNames(nameObjects));
         }
     });
     // add names
@@ -54,7 +54,7 @@ nameMatcher.whenReady.then(function(value) {
                 }
                 for (var i=0; i < firstList.length; i++) {
                     if (firstList[i] !== '' || lastList[i] !== '') {
-                    nameMatcher.addName(firstList[i], lastList[i], "prod");
+                       nameMatcher.addName(firstList[i], lastList[i]);
                     } else {
                         reply(boom.badRequest('failure: empty names in list'));
                     }
