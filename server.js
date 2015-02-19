@@ -14,7 +14,7 @@ nameMatcher.whenReady.then(function(value) {
     if (config.ssl.enabled) {
         options.tls = require('./lib/sslCredentials.js');
     }
-    options.port = 3000;
+    options.port = 3500;
     var server = new hapi.Server();
     server.connection(options);
 
