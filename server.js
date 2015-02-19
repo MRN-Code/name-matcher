@@ -14,11 +14,7 @@ nameMatcher.whenReady.then(function(value) {
     if (config.ssl.enabled) {
         options.tls = require('./lib/sslCredentials.js');
     }
-    if (process.env.NODE_ENV === "production") {
-        options.port = 3000;
-    } else {
-        options.port = 2999;
-    }
+    options.port = 3000;
     var server = new hapi.Server();
     server.connection(options);
 
